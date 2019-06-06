@@ -1,25 +1,38 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const morgan = require('morgan');           // Log all HTTP requests to the console
+const mongoose = require('mongoose');
+const pathToRegexp = require('path-to-regexp');
 const app = express();
 const checkJwt = require('express-jwt');
-const mongoose = require('mongoose');
-const path = require('path');
-const pathToRegexp = require('path-to-regexp');
+//const morgan = require('morgan');           // Log all HTTP requests to the console
 
-//let dbUrl = 'mongodb://localhost/hertingsQuestionsV1';
+
 let dbUrl = 'mongodb+srv://admin:1234@cluster0-vhkho.mongodb.net/job_site?retryWrites=true&w=majority';
+
+mongoose.connect(dbUrl, {useNewUrlParser: true}, (err) => {
+    console.log('mongo db connection', err);
+});
 
 /****** Configuration *****/
 app.use(bodyParser.json());                 // Make sure all json data is parsed
-app.use(morgan('combined'));         // Log all requests to the console
+app.use(express.static(path.join(__dirname, '../build')));
+//app.use(morgan('combined'));         // Log all requests to the console
+
+process.env.JWT_SECRET = 'herting1234';
 
 const port = (process.env.PORT || 8080);
 
-/*if (!process.env.JWT_SECRET) {
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    console.log("DB connection is open!");
+});
+
+if (!process.env.JWT_SECRET) {
     console.error('You need to put a secret in the JWT_SECRET env variable!');
     process.exit(1);
-}*/
+}
 
 /****** Middleware *****/
 
@@ -84,16 +97,11 @@ app.use(function (err, req, res, next) {
     res.status(500).send({msg: 'Something broke!'})
 });
 
-/****** Listen ******/
-app.listen(port, () => console.log(`API running on port ${port}!`));
-
-mongoose.connect(dbUrl, {useNewUrlParser: true}, (err) => {
-    console.log('mongo db connection', err);
-});
-
-app.use(express.static(path.join(__dirname, '../build')));
-
 /**** Reroute all unknown requests to the React index.html ****/
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../build/index.html'));
 });
+
+/****** Listen ******/
+app.listen(port, () => console.log(`API running on port ${port}!`));
+

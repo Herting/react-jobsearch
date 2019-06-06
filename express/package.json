@@ -1,7 +1,7 @@
 {
-  "name": "krdo_todo_api",
-  "version": "1.0.0",
-  "description": "Simple API for a Todo List app",
+  "name": "herting",
+  "version": "0.0.1",
+  "description": "Simple API for a job list app",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
