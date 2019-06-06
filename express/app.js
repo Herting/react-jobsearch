@@ -58,6 +58,10 @@ app.use((req, res, next) => {
 
 // Regex to show specifik path
 const getJob = pathToRegexp('/api/jobs/job/:id');
+const getCategory = pathToRegexp('/jobs/:category');
+const getAreaInCategory = pathToRegexp('/jobs/:category/:area');
+const getShowJob = pathToRegexp('/show-job/:id');
+const getAdmin = pathToRegexp('/admin');
 
 // Open paths that does not need login
 let openPaths = [
@@ -66,7 +70,11 @@ let openPaths = [
     '/api/categories',
     '/api/areas',
     '/api/jobs',
-    getJob
+    getJob,
+    getCategory,
+    getAreaInCategory,
+    getShowJob,
+    getAdmin
 ];
 // Validate the user using authentication
 app.use(
