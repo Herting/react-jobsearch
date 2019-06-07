@@ -24,17 +24,25 @@ module.exports = () => {
         })
     });
 
+    router.get('/user/:user_id', (req, res) => {
+        Job.find({user_id: req.params.user_id}).exec(function (err, jobs) {
+            res.send(jobs);
+        })
+    });
+
     router.post('/create', (req, res) => {
         let title = req.body.title;
         let description = req.body.description;
         let category = req.body.category;
         let area = req.body.area;
+        let user_id = req.body.user_id;
 
         let newJob = new Job({
             title: title,
             description: description,
             category: category,
-            area: area
+            area: area,
+            user_id: user_id
         });
 
         newJob.save((err) => {

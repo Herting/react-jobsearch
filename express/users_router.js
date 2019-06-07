@@ -66,7 +66,8 @@ module.exports = () => {
 
                         res.json({
                             msg: 'User authenticated successfully',
-                            token: token
+                            token: token,
+                            user_id: user._id
                         });
                     }
                     else res.status(401).json({msg: "Password mismatch!"})

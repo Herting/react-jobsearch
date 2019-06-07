@@ -71,6 +71,8 @@ class CreateJobForm extends Component {
         let categories = [];
         let areas= [];
 
+        console.log(this.props);
+
         this.props.categories.forEach((cat) => {
             categories.push(
                 <option key={cat.title} value={cat.title}>{cat.title}</option>

@@ -56,7 +56,7 @@ app.use((req, res, next) => {
     }
 });
 
-// Regex to show specifik path
+// Regex to show specific path
 const getJob = pathToRegexp('/api/jobs/job/:id');
 const getCategory = pathToRegexp('/jobs/:category');
 const getAreaInCategory = pathToRegexp('/jobs/:category/:area');
